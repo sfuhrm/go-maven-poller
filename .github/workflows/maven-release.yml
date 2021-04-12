@@ -1,6 +1,5 @@
-# This release process looks for dim tags and produces releases
-# build on the version number.
-name: release
+# This release process looks for tags and produces releases.
+name: Release
 
 on:
   push:
@@ -39,6 +38,9 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
         draft: true
+        body: |
+          # Release ${{ needs.build.outputs.version }}
+          
     - uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

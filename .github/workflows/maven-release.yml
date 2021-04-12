@@ -51,8 +51,11 @@ jobs:
         body: |
           # Release ${{ steps.version.outputs.version }}
 
-          MD5 Checksum:    ${{ steps.md5sum.outputs.md5sum }}
-          SHA256 Checksum: ${{ steps.sha256sum.outputs.sha256sum }}
+          ## Checksums
+          |Type|Message digest|
+          |----+--------------|
+          |MD5|`${{ steps.md5sum.outputs.md5sum }}`|
+          |SHA256|`${{ steps.sha256sum.outputs.sha256sum }}`|
 
     - uses: actions/upload-release-asset@v1
       env:

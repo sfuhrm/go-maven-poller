@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
+      md5sum: ${{ steps.md5sum.outputs.md5sum }}
+      sha256sum: ${{ steps.sha256sum.outputs.sha256sum }}
     env:
       DEBIAN_FRONTEND: noninteractive
 
@@ -26,6 +28,14 @@ jobs:
       run: echo "::set-output name=version::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)"
       id: version
       shell: bash
+    - name: Calculate MD5
+      run: echo "::set-output name=md5sum::$(md5sum -b target/go-maven-poller-plugin.jar | cut -f1 -d" ")"
+      id: md5sum
+      shell: bash
+    - name: Calculate SHA256
+      run: echo "::set-output name=sha256sum::$(sha256sum -b target/go-maven-poller-plugin.jar | cut -f1 -d" ")"
+      id: sha256sum
+      shell: bash
     - uses: actions/upload-artifact@v2
       with:
         name: go-maven-poller-plugin.jar
@@ -39,8 +49,11 @@ jobs:
         release_name: ${{ github.ref }}
         draft: true
         body: |
-          # Release ${{ needs.build.outputs.version }}
-          
+          # Release ${{ steps.version.outputs.version }}
+
+          MD5 Checksum:    ${{ steps.md5sum.outputs.md5sum }}
+          SHA256 Checksum: ${{ steps.sha256sum.outputs.sha256sum }}
+
     - uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

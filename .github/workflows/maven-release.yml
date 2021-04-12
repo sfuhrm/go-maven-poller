@@ -50,6 +50,11 @@ jobs:
         draft: true
         body: |
           # Release ${{ steps.version.outputs.version }}
+          ## Changes
+          
+          * 1
+          * 2
+          * 3
 
           ## Checksums
           |Type|Message digest|

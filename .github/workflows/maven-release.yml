@@ -53,7 +53,7 @@ jobs:
 
           ## Checksums
           |Type|Message digest|
-          |----+--------------|
+          |----|--------------|
           |MD5|`${{ steps.md5sum.outputs.md5sum }}`|
           |SHA256|`${{ steps.sha256sum.outputs.sha256sum }}`|
 
